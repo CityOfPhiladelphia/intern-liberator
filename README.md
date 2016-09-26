@@ -25,6 +25,10 @@ Then install dependencies using:
 pip install -r requirements.txt
 ```
 
+Finally, copy `.env.sample` to `.env` and fill in the environment variables.
+You can find the Knack Application ID by inspecting the headers of network
+requests when viewing a public Knack application (requires no special access).
+
 ## Usage
 
 Output the contents of a dataset as JSON using:
