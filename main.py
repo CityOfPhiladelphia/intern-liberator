@@ -20,6 +20,7 @@ benny = Benny(
     rep_scene=os.environ.get('REPRESENTATION_SCENE'),
     rep_details_view=os.environ.get('REPRESENTATION_DETAILS_VIEW'),
     rep_endpoints_view=os.environ.get('REPRESENTATION_ENDPOINTS_VIEW'),
+    rep_fields_view=os.environ.get('REPRESENTATION_FIELDS_VIEW')
     )
 
 @click.command()
