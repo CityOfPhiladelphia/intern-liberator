@@ -1,0 +1,6 @@
+click==6.6
+python-dotenv==0.6.0
+python-slugify==1.2.1
+requests==2.11.1
+Unidecode==0.4.19
+wheel==0.24.0
