@@ -33,13 +33,15 @@ requests when viewing a public Knack application (requires no special access).
 
 Output the contents of a dataset as JSON using:
 ```bash
-python main.py <dataset-id>
+python main.py getdataset <dataset-id> [--format=ckan]
 ```
 
 You can pass this to a tool like [jq](https://stedolan.github.io/jq/) to
 pretty-print or transform the JSON, then pipe it somewhere else, ie:
 ```bash
-python main.py 5543ca6e5c4ae4cd66d3ff55 | jq -C   # colorize
+python main.py getdataset 5543ca6e5c4ae4cd66d3ff55 | jq '.'
 
-python main.py 5543ca6e5c4ae4cd66d3ff55 | jq > trade-licenses.json
+python main.py getdataset 5543ca6e5c4ae4cd66d3ff55 | jq '.' > trade-licenses.json
+
+python main.py getdataset 5543ca6e5c4ae4cd66d3ff55 --format ckan | ckanapi action package_patch -i -r <hostname> -a <apikey>
 ```

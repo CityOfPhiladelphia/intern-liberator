@@ -1,5 +1,7 @@
 from knack import Knack
 
+from slugify import slugify
+
 class Benny(Knack):
     def __init__(self, **kwargs):
         super(Benny, self).__init__(**kwargs)
@@ -44,3 +46,28 @@ class Benny(Knack):
             mapped_dataset['representations'].append(mapped_rep)
 
         return mapped_dataset
+
+    def to_ckan(self, data):
+        mapped = {
+            'name': slugify(data['name']), # should try to use Knack "ODP Slug" field first, fall back on slug of name
+            # 'private': # base off representation release date?
+            'title': data['name'],
+            'notes': data['description'],
+            'maintainer_email': data['dataset_contact']['email'],
+            'organization': { 'name': 'city-of-philadelphia' },
+            'tags': [
+                { 'name': data['department'][0]['identifier'] }
+            ],
+            'resources': []
+        }
+        for rep in data['representations']:
+            for endpoint in rep['endpoints']:
+                resource = {
+                    'name': '{0} ({1})'.format(rep['name'], endpoint['format']),
+                    'format': endpoint['format'],
+                    'description': '{0}\nUpdated: {1}'.format(rep['description'], rep['update_frequency']),
+                    'url': endpoint['url']['url'],
+                }
+                mapped['resources'].append(resource)
+
+        return mapped

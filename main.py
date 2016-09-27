@@ -23,11 +23,26 @@ benny = Benny(
     rep_fields_view=os.environ.get('REPRESENTATION_FIELDS_VIEW')
     )
 
-@click.command()
+@click.group()
+def cli():
+    pass
+
+@cli.command()
 @click.argument('id')
-def getdataset(id):
+@click.option('--format', help='optional output format (ie. ckan)')
+def getdataset(id, format=''):
     result = benny.get_dataset(id)
-    print(json.dumps(result))
+    if format == 'ckan':
+        ckan_result = benny.to_ckan(result)
+        click.echo(json.dumps(ckan_result))
+    else:
+        click.echo(json.dumps(result))
+
+@cli.command()
+def tockan():
+    input_data = json.load(sys.stdin)
+    ckan_result = benny.to_ckan(input_data)
+    click.echo(json.dumps(ckan_result))
 
 if __name__ == '__main__':
-    getdataset()
+    cli()
