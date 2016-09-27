@@ -37,8 +37,11 @@ class Knack(object):
 
     def fetch(self, qs={}):
         uri = self.endpoint + self.resource
-        if qs:
-            uri += '?' + urlencode(qs)
+
+        if format not in qs: # allow user override
+            qs['format'] = 'raw'
+
+        uri += '?' + urlencode(qs)
 
         # Reset state
         self.resource = ''
